@@ -9,10 +9,10 @@ const cardsList = content.querySelector(".places__list"); //Грид с карт
 
 // @todo: Функция создания карточки
 function addCard(data, onDelete) {
-   const cardItem = cardTemplate.querySelector('.places__item').cloneNode(true); 
+   const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
    const cardTitle = cardItem.querySelector(".card__title"); //Заголовок карточки
    const cardImage = cardItem.querySelector(".card__image"); //Картинка карточки
-   const cardAlt = cardItem.querySelector(".card__title"); //Alt картинки
+   const cardAlt = cardItem.querySelector(".card__image"); //Alt картинки
    const deleteButton = cardItem.querySelector(".card__delete-button"); //Кнопка удаления карточки
    //устанавливаем данные карточки и обработчик клика по корзинке удаления
    //...
@@ -41,7 +41,7 @@ function renderCard(cards) {
    cards.forEach((data) => {
       const card = addCard(data, handleDeleteCard);
       cardsList.append(card);
-   })
+   });
    //функционал вставки элемента карточки на страницу
 }
 
