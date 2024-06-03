@@ -58,3 +58,4 @@ addCard(deleteCard);
 // function closePopup() {
 //    NewCard.classList.remove("popup_is-opened");
 // }
+// asdasdasdasdas
