@@ -12,13 +12,12 @@ function addCard(data, onDelete) {
    const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
    const cardTitle = cardItem.querySelector(".card__title"); //Заголовок карточки
    const cardImage = cardItem.querySelector(".card__image"); //Картинка карточки
-   const cardAlt = cardItem.querySelector(".card__image"); //Alt картинки
    const deleteButton = cardItem.querySelector(".card__delete-button"); //Кнопка удаления карточки
    //устанавливаем данные карточки и обработчик клика по корзинке удаления
    //...
 
    cardImage.src = data.link;
-   cardAlt.alt = data.name;
+   cardImage.alt = data.name;
    cardTitle.textContent = data.name;
 
    deleteButton.addEventListener("click", () => {
