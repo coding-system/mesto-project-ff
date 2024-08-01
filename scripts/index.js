@@ -6,6 +6,7 @@ const cardTemplate = document.querySelector("#card-template").content; //Тэм�
 
 const content = document.querySelector(".content"); //Тэг main
 const cardsList = content.querySelector(".places__list"); //Грид с карточками
+const pageContent = document.querySelector(".page"); //Тэг body с классом pagepage
 
 // @todo: Функция создания карточки
 function addCard(data, onDelete) {
@@ -27,6 +28,35 @@ function addCard(data, onDelete) {
 
    return cardItem;
 }
+
+function openPopupNewCard() {
+   const addCardButton = content.querySelector(".profile__add-button"); //Кнопка добавления карточки
+   const popupNewCard = pageContent.querySelector(".popup_type_new-card");
+   const popupNewCardCloseButton = popupNewCard.querySelector(".popup__close");
+
+   // Открытие попапа
+   addCardButton.addEventListener("click", function () {
+      popupNewCard.classList.add("popup_is-opened");
+      document.addEventListener("keydown", closeNewCardPopup);
+   });
+
+   // Закрытие на крестик
+   popupNewCardCloseButton.addEventListener("click", function () {
+      popupNewCard.classList.remove("popup_is-opened");
+      document.removeEventListener("keydown", closeNewCardPopup);
+   });
+
+   // Функция закрытия попапа
+   // Закрытие на ESC
+   function closeNewCardPopup(evt) {
+      if (evt.key === "Escape") {
+         popupNewCard.classList.remove("popup_is-opened");
+         document.removeEventListener("keydown", closeNewCardPopup);
+      }
+   }
+}
+
+openPopupNewCard();
 
 // @todo: Функция удаления карточки
 
