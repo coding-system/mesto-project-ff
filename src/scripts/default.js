@@ -93,7 +93,6 @@ function openPopupNewCard() {
       popupNewCard.classList.remove("popup_is-opened");
       document.removeEventListener("keydown", handleEscClose);
       popupNewCard.removeEventListener("click", handleOverlayClick);
-      
    }
 }
 
