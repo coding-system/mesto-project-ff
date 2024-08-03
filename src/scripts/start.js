@@ -1,3 +1,5 @@
+import { initialCards } from "./cards";
+
 // @todo: Темплейт карточки
 
 const cardTemplate = document.querySelector("#card-template").content; //Тэмплейт
@@ -117,3 +119,4 @@ function renderCard(cards) {
 // @todo: Вывести карточки на страницу, используем цикл forEach
 
 renderCard(initialCards);
+
