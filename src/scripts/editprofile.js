@@ -18,6 +18,32 @@ function openPopupEditProfile() {
       closePopup();
    });
 
+   // Функция сохранения введенных данных
+   function saveProfile(evt) {
+      evt.preventDefault();
+      console.log("Работает");
+      const name = editProfileForm.elements.name;
+      const description = editProfileForm.elements.description;
+      const profileTitle = pageContent.querySelector(".profile__title");
+      const profileDescription = pageContent.querySelector(
+         ".profile__description"
+      );
+      profileTitle.textContent =
+         name.value.charAt(0).toUpperCase() + name.value.slice(1);
+      profileDescription.textContent =
+         description.value.charAt(0).toUpperCase() + description.value.slice(1);
+      // profileTitle.textContent = name.value;
+      // profileDescription.textContent = description.value;
+      ///////////////////////////////////////////////////////////////
+      // console.log(name.value);
+      // console.log(description.value);
+      closePopup();
+   }
+   // Сохранение и закрытие попапа
+   const editProfileForm = document.forms["edit-profile"];
+
+   editProfileForm.addEventListener("submit", saveProfile);
+
    // Обработчик нажатия клавиши ESC
    function handleEscClose(event) {
       if (event.key === "Escape") {
