@@ -1,6 +1,7 @@
 import { initialCards } from "./cards";
-import { cardTemplate, cardsList } from "./vars";
+import {cardTemplate, cardsList} from './vars'
 // @todo: Темплейт карточки
+
 
 // @todo: Функция создания карточки
 function addCard(data, onDelete) {
