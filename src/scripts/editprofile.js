@@ -41,7 +41,6 @@ function openPopupEditProfile() {
    }
    // Сохранение и закрытие попапа
    const editProfileForm = document.forms["edit-profile"];
-
    editProfileForm.addEventListener("submit", saveProfile);
 
    // Обработчик нажатия клавиши ESC

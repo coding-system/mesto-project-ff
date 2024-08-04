@@ -1,6 +1,10 @@
 import { content, pageContent } from "./vars";
+import { cardTemplate, cardsList } from "./vars";
+// import { addCard, handleDeleteCard } from './rendercards'
+import { openFullImage } from "./fullimage";
 
 function openPopupNewCard() {
+   const newPlaceForm = document.forms["new-place"];
    const addCardButton = content.querySelector(".profile__add-button"); // Кнопка добавления карточки
    const popupNewCard = pageContent.querySelector(".popup_type_new-card");
    const closeButton = popupNewCard.querySelector(".popup__close");
@@ -17,6 +21,60 @@ function openPopupNewCard() {
    closeButton.addEventListener("click", function () {
       closePopup();
    });
+
+   //////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////
+   // Функция сохранения введенных данных
+
+   function addCard(onDelete) {
+      const cardItem = cardTemplate
+         .querySelector(".places__item")
+         .cloneNode(true);
+      const cardTitle = cardItem.querySelector(".card__title"); //Заголовок карточки
+      const cardImage = cardItem.querySelector(".card__image"); //Картинка карточки
+      const deleteButton = cardItem.querySelector(".card__delete-button"); //Кнопка удаления карточки
+      //устанавливаем данные карточки и обработчик клика по корзинке удаления
+      //...
+      const newPlaceForm = document.forms["new-place"];
+      const placeName = newPlaceForm.elements["place-name"].value;
+      const link = newPlaceForm.elements.link.value;
+
+      cardImage.src = link;
+      cardImage.alt = placeName;
+      cardTitle.textContent = placeName;
+
+      deleteButton.addEventListener("click", () => {
+         onDelete(cardItem);
+      });
+
+      return cardItem;
+   }
+
+   // @todo: Функция удаления карточки
+
+   function handleDeleteCard(cardItem) {
+      cardItem.remove();
+   }
+
+   function addNewCard() {
+      const card = addCard(handleDeleteCard);
+      cardsList.prepend(card);
+      openFullImage()
+   }
+
+   function saveCard(evt) {
+      evt.preventDefault();
+      addNewCard();
+      closePopup();
+   }
+
+   // Сохранение и закрытие попапа
+   newPlaceForm.addEventListener("submit", saveCard);
+
+   //////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////
 
    // Обработчик нажатия клавиши ESC
    function handleEscClose(event) {
@@ -40,4 +98,4 @@ function openPopupNewCard() {
    }
 }
 
-openPopupNewCard()
+openPopupNewCard();

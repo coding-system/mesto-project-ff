@@ -1,6 +1,6 @@
 import { pageContent } from "./vars";
 
-function openfull() {
+export function openFullImage() {
    const imagePopup = document.querySelector(".popup_type_image");
 
    function closePopup() {
@@ -24,13 +24,13 @@ function openfull() {
    document.querySelectorAll(".card__image").forEach((image) => {
       image.addEventListener("click", (event) => {
          const imagePopup = pageContent.querySelector(".popup_type_image");
-         const img = imagePopup.querySelector(".popup__image");
+         const image = imagePopup.querySelector(".popup__image");
          const caption = imagePopup.querySelector(".popup__caption");
          const closeButton = imagePopup.querySelector(".popup__close");
          closeButton.addEventListener("click", function () {
             closePopup();
          });
-         img.src = event.target.src; // Устанавливаем источник изображения
+         image.src = event.target.src; // Устанавливаем источник изображения
          caption.textContent = event.target.alt; // Устанавливаем подпись
 
          imagePopup.classList.add("popup_is-opened");
@@ -41,4 +41,4 @@ function openfull() {
    });
 }
 
-openfull();
+openFullImage();
