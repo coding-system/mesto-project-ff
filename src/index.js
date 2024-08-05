@@ -15,5 +15,5 @@ import { saveProfile } from './scripts/other.js'
 // const popupsss = pageContent.querySelector(".popup");
 // popupsss.classList.add("popup_is-animated");
 
-const editProfileForm = document.forms["edit-profile"];
-   editProfileForm.addEventListener("submit", saveProfile);
+// const editProfileForm = document.forms["edit-profile"];
+//    editProfileForm.addEventListener("submit", saveProfile);

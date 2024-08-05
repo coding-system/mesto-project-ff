@@ -4,6 +4,10 @@ import { saveProfile, saveCard } from "./other";
 function initializePopups() {
    // Получаем все попапы
    const popups = document.querySelectorAll(".popup");
+   popups.forEach((popup) => {
+      popup.classList.add("popup_is-animated");
+   })
+   
 
    // Функция для открытия попапа
    function openPopup(popup) {
@@ -87,6 +91,7 @@ function initializePopups() {
    newPlaceForm.addEventListener("submit", (evt) => {
       evt.preventDefault();
       const newCardPopup = document.querySelector(".popup_type_new-card");
+      initializePopups();
       closePopup(newCardPopup);
    });
 }
