@@ -6,8 +6,7 @@ function initializePopups() {
    const popups = document.querySelectorAll(".popup");
    popups.forEach((popup) => {
       popup.classList.add("popup_is-animated");
-   })
-   
+   });
 
    // Функция для открытия попапа
    function openPopup(popup) {

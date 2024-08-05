@@ -4,7 +4,7 @@ import "./scripts/vars.js";
 import "./scripts/cards.js";
 import "./scripts/modal.js";
 import "./scripts/other.js";
-import { saveProfile } from './scripts/other.js'
+import { saveProfile } from "./scripts/other.js";
 // import "./scripts/rendercards.js";
 // import "./scripts/popups.js";
 // import "./scripts/newcard.js";

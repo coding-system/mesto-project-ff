@@ -83,10 +83,8 @@ function renderCard(cards) {
    //функционал вставки элемента карточки на страницу
 }
 
-
-
 // @todo: Вывести карточки на страницу, используем цикл forEach
 
 renderCard(initialCards);
 
-export {addCard, handleDeleteCard, handleLikeCard}
+export { addCard, handleDeleteCard, handleLikeCard };
