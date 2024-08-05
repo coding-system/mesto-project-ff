@@ -31,8 +31,8 @@ function addCard(data, onLike, onDelete) {
 // @todo: Функция удаления карточки
 
 function handleLikeCard(cardItem) {
-   const likeButton = cardItem.querySelector('.card__like-button');
-   likeButton.classList.toggle('card__like-button_is-active');
+   const likeButton = cardItem.querySelector(".card__like-button");
+   likeButton.classList.toggle("card__like-button_is-active");
 }
 
 function handleDeleteCard(cardItem) {

@@ -44,3 +44,5 @@ export function openFullImage() {
 }
 
 openFullImage();
+
+export {openFullImage}
