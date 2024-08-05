@@ -4,7 +4,7 @@ function openPopupEditProfile() {
    const editProfeleButton = content.querySelector(".profile__edit-button"); // Кнопка добавления карточки
    const popupTypeEdit = pageContent.querySelector(".popup_type_edit");
    const closeButton = popupTypeEdit.querySelector(".popup__close");
-
+   popupTypeEdit.classList.add("popup_is-animated");
    // Открытие попапа
    editProfeleButton.addEventListener("click", function () {
       popupTypeEdit.classList.add("popup_is-opened");

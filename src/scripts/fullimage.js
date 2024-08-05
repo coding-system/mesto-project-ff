@@ -1,7 +1,9 @@
 import { pageContent } from "./vars";
 
 export function openFullImage() {
+   
    const imagePopup = document.querySelector(".popup_type_image");
+   imagePopup.classList.add("popup_is-animated");
 
    function closePopup() {
       imagePopup.classList.remove("popup_is-opened");
