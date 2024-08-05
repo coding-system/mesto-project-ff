@@ -1,4 +1,5 @@
 import { saveProfile, saveCard } from "./other";
+
 // Функция для инициализации попапов
 function initializePopups() {
    // Получаем все попапы
@@ -77,12 +78,17 @@ function initializePopups() {
    const editProfileForm = document.forms["edit-profile"];
    editProfileForm.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      saveProfile(evt);
       const editPopup = document.querySelector(".popup_type_edit");
       closePopup(editPopup);
+   });
+
+   // Сохранение и закрытие попапа новой карточки
+   const newPlaceForm = document.forms["new-place"];
+   newPlaceForm.addEventListener("submit", (evt) => {
+      evt.preventDefault();
+      const newCardPopup = document.querySelector(".popup_type_new-card");
+      closePopup(newCardPopup);
    });
 }
 
 initializePopups();
-
-export {initializePopups}
