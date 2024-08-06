@@ -1,7 +1,7 @@
 // import { saveProfile, saveCard } from "./other";
 
 // Функция для инициализации попапов
-export function initializePopups() {
+function initializePopups() {
    // Получаем все попапы
    const popups = document.querySelectorAll(".popup");
    popups.forEach((popup) => {
@@ -95,4 +95,6 @@ export function initializePopups() {
    });
 }
 
-initializePopups();
+// initializePopups();
+
+export {initializePopups} 

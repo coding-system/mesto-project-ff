@@ -1,5 +1,6 @@
 import { addCard, handleDeleteCard, handleLikeCard } from "./card";
 import { initializePopups } from "./modal";
+import {editProfileForm, newPlaceForm} from '../index'
 // Функция сохранения новых данных профиля
 function saveProfile(evt) {
    evt.preventDefault();
@@ -16,8 +17,8 @@ function saveProfile(evt) {
    // console.log("выполнена функция " + saveProfile);
 }
 
-const editProfileForm = document.forms["edit-profile"];
-editProfileForm.addEventListener("submit", saveProfile);
+// const editProfileForm = document.forms["edit-profile"];
+// editProfileForm.addEventListener("submit", saveProfile);
 
 //Функция создания и вывода карточки из формы
 function saveCard(evt) {
@@ -30,7 +31,7 @@ function saveCard(evt) {
    // const newCardPopup = document.querySelector(".popup_type_new-card");
    // // closePopup(newCardPopup);
 }
-const newPlaceForm = document.forms["new-place"];
-newPlaceForm.addEventListener("submit", saveCard);
+// const newPlaceForm = document.forms["new-place"];
+// newPlaceForm.addEventListener("submit", saveCard);
 
 export { saveProfile, saveCard };

@@ -1,6 +1,7 @@
-import { cardTemplate, cardsList } from "./vars.js";
-import { initialCards } from "./cards";
+import { cardTemplate, cardsList } from "../index.js";
+
 // @todo: Темплейт карточки
+
 
 // @todo: Функция создания карточки
 function addCard(data, onLike, onDelete) {
@@ -58,6 +59,6 @@ function renderCard(cards) {
 
 // @todo: Вывести карточки на страницу, используем цикл forEach
 
-renderCard(initialCards);
 
-export { addCard, handleDeleteCard, handleLikeCard };
+
+export { addCard, handleDeleteCard, handleLikeCard, renderCard };
