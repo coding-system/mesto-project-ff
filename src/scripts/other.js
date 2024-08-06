@@ -1,5 +1,5 @@
-import { addCard, handleDeleteCard, handleLikeCard } from "./cards";
-
+import { addCard, handleDeleteCard, handleLikeCard } from "./card";
+import { initializePopups } from "./modal";
 // Функция сохранения новых данных профиля
 function saveProfile(evt) {
    evt.preventDefault();
@@ -24,6 +24,7 @@ function saveCard(evt) {
    evt.preventDefault();
    const card = addCard(null, handleLikeCard, handleDeleteCard);
    document.querySelector(".places__list").prepend(card);
+   initializePopups()
    // console.log("выполнена функция " + saveCard);
    // Закрытие текущего открытого попапа
    // const newCardPopup = document.querySelector(".popup_type_new-card");
