@@ -1,9 +1,9 @@
 import "./pages/index.css"; // добавьте импорт главного файла стилей
 
-import { saveCard, saveProfile } from "./scripts/other";
+import { saveCard } from "./scripts/card";
 import { renderCard } from "./scripts/card";
 import { initialCards } from "./scripts/cards";
-import { initializePopups } from "./scripts/modal";
+import { initializePopups, saveProfile } from "./scripts/modal";
 
 const cardTemplate = document.querySelector("#card-template").content; //Тэмплейт
 const cardsList = document.querySelector(".places__list"); //Грид с карточками

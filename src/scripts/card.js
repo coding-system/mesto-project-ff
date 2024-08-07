@@ -1,7 +1,8 @@
 import { cardTemplate, cardsList } from "../index.js";
-
+import { initializePopups, newCardPopup } from "./modal";
+import { closePopup} from "./modal";
 // @todo: Темплейт карточки
-
+const newPlaceForm = document.forms["new-place"];
 
 // @todo: Функция создания карточки
 function addCard(data, onLike, onDelete) {
@@ -14,7 +15,6 @@ function addCard(data, onLike, onDelete) {
    //...
 
    if (!data) {
-      const newPlaceForm = document.forms["new-place"];
       const placeName = newPlaceForm.elements["place-name"].value;
       const link = newPlaceForm.elements["link"].value;
       data = { name: placeName, link: link };
@@ -47,8 +47,17 @@ function handleDeleteCard(cardItem) {
    cardItem.remove();
 }
 
-// @todo: функция вставки карточки на страницу
+//Функция создания и вывода карточки из формы
+function saveCard(evt) {
+   evt.preventDefault();
+   const card = addCard(null, handleLikeCard, handleDeleteCard);
+   document.querySelector(".places__list").prepend(card);
+   newPlaceForm.reset();
+   initializePopups();
+   closePopup(newCardPopup);
+}
 
+// @todo: функция вставки карточки на страницу
 function renderCard(cards) {
    cards.forEach((data) => {
       const card = addCard(data, handleLikeCard, handleDeleteCard);
@@ -59,6 +68,11 @@ function renderCard(cards) {
 
 // @todo: Вывести карточки на страницу, используем цикл forEach
 
-
-
-export { addCard, handleDeleteCard, handleLikeCard, renderCard };
+export {
+   addCard,
+   handleDeleteCard,
+   handleLikeCard,
+   renderCard,
+   newPlaceForm,
+   saveCard,
+};

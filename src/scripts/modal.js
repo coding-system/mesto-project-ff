@@ -1,5 +1,45 @@
 // import { saveProfile, saveCard } from "./other";
+import {editProfileForm} from '../index'
+// Функция для открытия попапа
+function openPopup(popup) {
+   popup.classList.add("popup_is-opened");
+   document.addEventListener("keydown", handleEscKey);
+}
 
+// Функция для закрытия попапа
+function closePopup(popup) {
+   popup.classList.remove("popup_is-opened");
+   document.removeEventListener("keydown", handleEscKey);
+}
+
+// Закрытие попапа по нажатию на клавишу Esc
+function handleEscKey(event) {
+   if (event.key === "Escape") {
+      const openedPopup = document.querySelector(".popup_is-opened");
+      if (openedPopup) {
+         closePopup(openedPopup);
+      }
+   }
+}
+
+// Функция сохранения новых данных профиля
+function saveProfile(evt) {
+   evt.preventDefault();
+   // console.log("Работает");
+   const name = editProfileForm.elements.name;
+   const description = editProfileForm.elements.description;
+   const profileTitle = document.querySelector(".profile__title");
+   const profileDescription = document.querySelector(".profile__description");
+
+   profileTitle.textContent =
+      name.value.charAt(0).toUpperCase() + name.value.slice(1);
+   profileDescription.textContent =
+      description.value.charAt(0).toUpperCase() + description.value.slice(1);
+   closePopup(editPopup);
+}
+
+const editPopup = document.querySelector(".popup_type_edit");
+const newCardPopup = document.querySelector(".popup_type_new-card");
 // Функция для инициализации попапов
 function initializePopups() {
    // Получаем все попапы
@@ -8,33 +48,10 @@ function initializePopups() {
       popup.classList.add("popup_is-animated");
    });
 
-   // Функция для открытия попапа
-   function openPopup(popup) {
-      popup.classList.add("popup_is-opened");
-      document.addEventListener("keydown", handleEscKey);
-   }
-
-   // Функция для закрытия попапа
-   function closePopup(popup) {
-      popup.classList.remove("popup_is-opened");
-      document.removeEventListener("keydown", handleEscKey);
-   }
-
-   // Закрытие попапа по нажатию на клавишу Esc
-   function handleEscKey(event) {
-      if (event.key === "Escape") {
-         const openedPopup = document.querySelector(".popup_is-opened");
-         if (openedPopup) {
-            closePopup(openedPopup);
-         }
-      }
-   }
-
    // Открытие попапа редактирования профиля
    document
       .querySelector(".profile__edit-button")
       .addEventListener("click", () => {
-         const editPopup = document.querySelector(".popup_type_edit");
          openPopup(editPopup);
       });
 
@@ -42,7 +59,6 @@ function initializePopups() {
    document
       .querySelector(".profile__add-button")
       .addEventListener("click", () => {
-         const newCardPopup = document.querySelector(".popup_type_new-card");
          openPopup(newCardPopup);
       });
 
@@ -70,7 +86,7 @@ function initializePopups() {
       }
    });
 
-   // Закрытие попапа при клике вне его содержимого
+   // Закрытие попапа при клике на оверлей
    document.addEventListener("mousedown", (event) => {
       if (event.target.classList.contains("popup_is-opened")) {
          closePopup(event.target);
@@ -78,23 +94,28 @@ function initializePopups() {
    });
 
    // Сохранение и закрытие попапа редактирования профиля
-   const editProfileForm = document.forms["edit-profile"];
-   editProfileForm.addEventListener("submit", (evt) => {
-      evt.preventDefault();
+   // const editProfileForm = document.forms["edit-profile"];
+   editProfileForm.addEventListener("submit", (event) => {
+      event.preventDefault();
       const editPopup = document.querySelector(".popup_type_edit");
-      closePopup(editPopup);
+      // closePopup(editPopup);
    });
 
    // Сохранение и закрытие попапа новой карточки
    const newPlaceForm = document.forms["new-place"];
-   newPlaceForm.addEventListener("submit", (evt) => {
-      evt.preventDefault();
+   newPlaceForm.addEventListener("submit", (event) => {
+      event.preventDefault();
       const newCardPopup = document.querySelector(".popup_type_new-card");
-      // initializePopups();
-      closePopup(newCardPopup);
+      // closePopup(newCardPopup);
    });
 }
 
-// initializePopups();
-
-export {initializePopups} 
+export {
+   initializePopups,
+   openPopup,
+   closePopup,
+   handleEscKey,
+   newCardPopup,
+   editPopup,
+   saveProfile,
+};
