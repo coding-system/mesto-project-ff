@@ -1,19 +1,49 @@
-import "./pages/index.css"; // добавьте импорт главного файла стилей
+import "./pages/index.css"; // импорт главного файла стилей
 
-import { saveCard } from "./scripts/card";
-import { renderCard } from "./scripts/card";
+import {
+   addCard,
+   handleDeleteCard,
+   handleLikeCard,
+   saveCard,
+} from "./scripts/card";
 import { initialCards } from "./scripts/cards";
-import { initializePopups, saveProfile } from "./scripts/modal";
+import {
+   initializePopups,
+   saveProfile,
+   openPopup,
+   closePopup,
+   submitForm,
+} from "./scripts/modal";
 
-const cardTemplate = document.querySelector("#card-template").content; //Тэмплейт
-const cardsList = document.querySelector(".places__list"); //Грид с карточками
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+
+const cardsList = document.querySelector(".places__list"); // Грид с карточками
 
 const editProfileForm = document.forms["edit-profile"];
-editProfileForm.addEventListener("submit", saveProfile);
-
 const newPlaceForm = document.forms["new-place"];
-newPlaceForm.addEventListener("submit", saveCard);
+
+// Обработчики для форм
+// editProfileForm.addEventListener("submit", saveProfile);
+// newPlaceForm.addEventListener("submit", saveCard);
+
+// Функция вставки карточек на страницу
+function renderCard(cards) {
+   cards.forEach((data) => {
+      const card = addCard(data, handleLikeCard, handleDeleteCard);
+      cardsList.append(card);
+   });
+}
 
 renderCard(initialCards);
-initializePopups();
-export { cardTemplate, cardsList, editProfileForm, newPlaceForm };
+
+// Инициализация попапов
+initializePopups(openPopup, closePopup, submitForm);
+
+export {
+   cardsList,
+   editProfileForm,
+   newPlaceForm,
+   profileTitle,
+   profileDescription,
+};

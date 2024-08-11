@@ -1,18 +1,17 @@
-import { cardTemplate, cardsList } from "../index.js";
-import { initializePopups, newCardPopup } from "./modal";
-import { closePopup} from "./modal";
-// @todo: Темплейт карточки
-const newPlaceForm = document.forms["new-place"];
+import { cardsList, newPlaceForm } from "../index.js";
+import { closePopup, openPopup, submitForm, initializePopups } from "./modal";
+import { newCardPopup } from "./modal"; // Import the newCardPopup for closePopup
 
-// @todo: Функция создания карточки
+// @todo: Template for card
+const cardTemplate = document.querySelector("#card-template").content; // Template for the card
+
+// @todo: Function to create a card
 function addCard(data, onLike, onDelete) {
    const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
-   const cardTitle = cardItem.querySelector(".card__title"); //Заголовок карточки
-   const cardImage = cardItem.querySelector(".card__image"); //Картинка карточки
-   const deleteButton = cardItem.querySelector(".card__delete-button"); //Кнопка удаления карточки
-   const likeCard = cardItem.querySelector(".card__like-button");
-   //устанавливаем данные карточки и обработчик клика по корзинке удаления
-   //...
+   const cardTitle = cardItem.querySelector(".card__title"); // Card title
+   const cardImage = cardItem.querySelector(".card__image"); // Card image
+   const deleteButton = cardItem.querySelector(".card__delete-button"); // Delete button
+   const likeButton = cardItem.querySelector(".card__like-button"); // Like button
 
    if (!data) {
       const placeName = newPlaceForm.elements["place-name"].value;
@@ -24,55 +23,38 @@ function addCard(data, onLike, onDelete) {
    cardImage.alt = data.name;
    cardTitle.textContent = data.name;
 
-   likeCard.addEventListener("click", () => {
+   likeButton.addEventListener("click", () => {
       onLike(cardItem);
    });
 
    deleteButton.addEventListener("click", () => {
       onDelete(cardItem);
-      // console.log(data.name + " удален");
    });
 
    return cardItem;
 }
 
-// @todo: Функция удаления карточки
-
+// Function to handle card liking
 function handleLikeCard(cardItem) {
    const likeButton = cardItem.querySelector(".card__like-button");
    likeButton.classList.toggle("card__like-button_is-active");
 }
 
+// Function to handle card deletion
 function handleDeleteCard(cardItem) {
    cardItem.remove();
 }
 
-//Функция создания и вывода карточки из формы
+// Function to save card data from the form
 function saveCard(evt) {
    evt.preventDefault();
    const card = addCard(null, handleLikeCard, handleDeleteCard);
-   document.querySelector(".places__list").prepend(card);
+   cardsList.prepend(card);
    newPlaceForm.reset();
-   initializePopups();
    closePopup(newCardPopup);
+
+   // Reinitialize popups with updated arguments
+   initializePopups(openPopup, closePopup, submitForm);
 }
 
-// @todo: функция вставки карточки на страницу
-function renderCard(cards) {
-   cards.forEach((data) => {
-      const card = addCard(data, handleLikeCard, handleDeleteCard);
-      cardsList.append(card);
-   });
-   //функционал вставки элемента карточки на страницу
-}
-
-// @todo: Вывести карточки на страницу, используем цикл forEach
-
-export {
-   addCard,
-   handleDeleteCard,
-   handleLikeCard,
-   renderCard,
-   newPlaceForm,
-   saveCard,
-};
+export { addCard, handleDeleteCard, handleLikeCard, newPlaceForm, saveCard };

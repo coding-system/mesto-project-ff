@@ -1,9 +1,23 @@
-// import { saveProfile, saveCard } from "./other";
-import {editProfileForm} from '../index'
+// Import necessary modules
+import {
+   editProfileForm,
+   newPlaceForm,
+   profileTitle,
+   profileDescription,
+} from "../index.js";
+import { saveCard, addCard, handleDeleteCard } from "./card.js";
+
 // Функция для открытия попапа
 function openPopup(popup) {
    popup.classList.add("popup_is-opened");
    document.addEventListener("keydown", handleEscKey);
+
+   // Вставка начальных данных профиля
+   if (popup === editPopup) {
+      editProfileForm.elements.name.value = profileTitle.textContent;
+      editProfileForm.elements.description.value =
+         profileDescription.textContent;
+   }
 }
 
 // Функция для закрытия попапа
@@ -25,23 +39,39 @@ function handleEscKey(event) {
 // Функция сохранения новых данных профиля
 function saveProfile(evt) {
    evt.preventDefault();
-   // console.log("Работает");
-   const name = editProfileForm.elements.name;
-   const description = editProfileForm.elements.description;
-   const profileTitle = document.querySelector(".profile__title");
-   const profileDescription = document.querySelector(".profile__description");
+   const name = editProfileForm.elements.name.value;
+   const description = editProfileForm.elements.description.value;
 
-   profileTitle.textContent =
-      name.value.charAt(0).toUpperCase() + name.value.slice(1);
+   profileTitle.textContent = name.charAt(0).toUpperCase() + name.slice(1);
    profileDescription.textContent =
-      description.value.charAt(0).toUpperCase() + description.value.slice(1);
+      description.charAt(0).toUpperCase() + description.slice(1);
+
    closePopup(editPopup);
 }
 
 const editPopup = document.querySelector(".popup_type_edit");
 const newCardPopup = document.querySelector(".popup_type_new-card");
+
+// Функция сабмита формы
+function submitForm() {
+   document.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const activePopup = document.querySelector(".popup_is-opened");
+      if (!activePopup) return;
+
+      if (activePopup === editPopup) {
+         saveProfile(event);
+      } else if (activePopup === newCardPopup) {
+         saveCard(event);
+      }
+   });
+}
+
 // Функция для инициализации попапов
-function initializePopups() {
+function initializePopups(onOpen, onClose, onSubmit) {
+   // Добавляем обработчики
+
    // Получаем все попапы
    const popups = document.querySelectorAll(".popup");
    popups.forEach((popup) => {
@@ -52,14 +82,14 @@ function initializePopups() {
    document
       .querySelector(".profile__edit-button")
       .addEventListener("click", () => {
-         openPopup(editPopup);
+         onOpen(editPopup);
       });
 
    // Открытие попапа добавления нового места
    document
       .querySelector(".profile__add-button")
       .addEventListener("click", () => {
-         openPopup(newCardPopup);
+         onOpen(newCardPopup);
       });
 
    // Открытие попапа изображения
@@ -69,10 +99,10 @@ function initializePopups() {
          const img = imagePopup.querySelector(".popup__image");
          const caption = imagePopup.querySelector(".popup__caption");
 
-         img.src = event.target.src; // Устанавливаем источник изображения
-         caption.textContent = event.target.alt; // Устанавливаем подпись
+         img.src = event.target.src; // Set image source
+         caption.textContent = event.target.alt; // Set caption
 
-         openPopup(imagePopup);
+         onOpen(imagePopup);
       });
    });
 
@@ -81,7 +111,7 @@ function initializePopups() {
       const closeButton = popup.querySelector(".popup__close");
       if (closeButton) {
          closeButton.addEventListener("click", () => {
-            closePopup(popup);
+            onClose(popup);
          });
       }
    });
@@ -89,31 +119,18 @@ function initializePopups() {
    // Закрытие попапа при клике на оверлей
    document.addEventListener("mousedown", (event) => {
       if (event.target.classList.contains("popup_is-opened")) {
-         closePopup(event.target);
+         onClose(event.target);
       }
    });
 
-   // Сохранение и закрытие попапа редактирования профиля
-   // const editProfileForm = document.forms["edit-profile"];
-   editProfileForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const editPopup = document.querySelector(".popup_type_edit");
-      // closePopup(editPopup);
-   });
-
-   // Сохранение и закрытие попапа новой карточки
-   const newPlaceForm = document.forms["new-place"];
-   newPlaceForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const newCardPopup = document.querySelector(".popup_type_new-card");
-      // closePopup(newCardPopup);
-   });
+   submitForm(onSubmit);
 }
 
 export {
    initializePopups,
    openPopup,
    closePopup,
+   submitForm,
    handleEscKey,
    newCardPopup,
    editPopup,
