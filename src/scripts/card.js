@@ -1,17 +1,16 @@
 import { cardsList, newPlaceForm } from "../index.js";
-import { closePopup, openPopup, submitForm, initializePopups } from "./modal";
-import { newCardPopup } from "./modal"; // Import the newCardPopup for closePopup
+import { closePopup, openPopup } from "./modal.js";
+import { newCardPopup } from "./modal.js"; // Import the newCardPopup for closePopup
 
-// @todo: Template for card
 const cardTemplate = document.querySelector("#card-template").content; // Template for the card
 
-// @todo: Function to create a card
+// @todo: Функция создания карточки
 function addCard(data, onLike, onDelete) {
    const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
-   const cardTitle = cardItem.querySelector(".card__title"); // Card title
-   const cardImage = cardItem.querySelector(".card__image"); // Card image
-   const deleteButton = cardItem.querySelector(".card__delete-button"); // Delete button
-   const likeButton = cardItem.querySelector(".card__like-button"); // Like button
+   const cardTitle = cardItem.querySelector(".card__title");
+   const cardImage = cardItem.querySelector(".card__image");
+   const deleteButton = cardItem.querySelector(".card__delete-button");
+   const likeButton = cardItem.querySelector(".card__like-button");
 
    if (!data) {
       const placeName = newPlaceForm.elements["place-name"].value;
@@ -20,7 +19,7 @@ function addCard(data, onLike, onDelete) {
    }
 
    cardImage.src = data.link;
-   cardImage.alt = data.name;
+   cardImage.alt = `Превью карточки "${data.name}"`;
    cardTitle.textContent = data.name;
 
    likeButton.addEventListener("click", () => {
@@ -31,21 +30,34 @@ function addCard(data, onLike, onDelete) {
       onDelete(cardItem);
    });
 
+   // Добавление обработчика для открытия каротинки
+   cardImage.addEventListener("click", () => {
+      const imagePopup = document.querySelector(".popup_type_image");
+      const img = imagePopup.querySelector(".popup__image");
+      const caption = imagePopup.querySelector(".popup__caption");
+
+      img.alt = `Полностью открытое изображение карточки "${data.name}"`;
+      img.src = data.link;
+      caption.textContent = data.name;
+
+      openPopup(imagePopup);
+   });
+
    return cardItem;
 }
 
-// Function to handle card liking
+// Функция лайка
 function handleLikeCard(cardItem) {
    const likeButton = cardItem.querySelector(".card__like-button");
    likeButton.classList.toggle("card__like-button_is-active");
 }
 
-// Function to handle card deletion
+// @todo: Функция удаления карточки
 function handleDeleteCard(cardItem) {
    cardItem.remove();
 }
 
-// Function to save card data from the form
+//Функция создания и вывода карточки на страницу
 function saveCard(evt) {
    evt.preventDefault();
    const card = addCard(null, handleLikeCard, handleDeleteCard);
@@ -53,8 +65,7 @@ function saveCard(evt) {
    newPlaceForm.reset();
    closePopup(newCardPopup);
 
-   // Reinitialize popups with updated arguments
-   initializePopups(openPopup, closePopup, submitForm);
+   // initializePopups(openPopup, closePopup, submitForm);
 }
 
 export { addCard, handleDeleteCard, handleLikeCard, newPlaceForm, saveCard };

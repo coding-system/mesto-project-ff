@@ -1,19 +1,13 @@
 import "./pages/index.css"; // импорт главного файла стилей
 
-import {
-   addCard,
-   handleDeleteCard,
-   handleLikeCard,
-   saveCard,
-} from "./scripts/card";
-import { initialCards } from "./scripts/cards";
+import { addCard, handleDeleteCard, handleLikeCard } from "./scripts/card";
+import { initialCards } from "./scripts/cards.js";
 import {
    initializePopups,
-   saveProfile,
    openPopup,
    closePopup,
    submitForm,
-} from "./scripts/modal";
+} from "./scripts/modal.js";
 
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
@@ -27,7 +21,7 @@ const newPlaceForm = document.forms["new-place"];
 // editProfileForm.addEventListener("submit", saveProfile);
 // newPlaceForm.addEventListener("submit", saveCard);
 
-// Функция вставки карточек на страницу
+// Функция вставки карточек по-умолчанию на страницу
 function renderCard(cards) {
    cards.forEach((data) => {
       const card = addCard(data, handleLikeCard, handleDeleteCard);

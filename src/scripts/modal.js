@@ -1,11 +1,6 @@
 // Import necessary modules
-import {
-   editProfileForm,
-   newPlaceForm,
-   profileTitle,
-   profileDescription,
-} from "../index.js";
-import { saveCard, addCard, handleDeleteCard } from "./card.js";
+import { editProfileForm, profileTitle, profileDescription } from "../index.js";
+import { saveCard } from "./card.js";
 
 // Функция для открытия попапа
 function openPopup(popup) {
@@ -93,18 +88,19 @@ function initializePopups(onOpen, onClose, onSubmit) {
       });
 
    // Открытие попапа изображения
-   document.querySelectorAll(".card__image").forEach((image) => {
-      image.addEventListener("click", (event) => {
-         const imagePopup = document.querySelector(".popup_type_image");
-         const img = imagePopup.querySelector(".popup__image");
-         const caption = imagePopup.querySelector(".popup__caption");
+   // document.querySelectorAll(".card__image").forEach((image) => {
+   //    image.addEventListener("click", (event) => {
+   //       const imagePopup = document.querySelector(".popup_type_image");
+   //       const img = imagePopup.querySelector(".popup__image");
+   //       const caption = imagePopup.querySelector(".popup__caption");
 
-         img.src = event.target.src; // Set image source
-         caption.textContent = event.target.alt; // Set caption
+   //       img.alt = event.target.alt;
+   //       img.src = event.target.src; // Set image source
+   //       caption.textContent = event.target.alt; // Set caption
 
-         onOpen(imagePopup);
-      });
-   });
+   //       onOpen(imagePopup);
+   //    });
+   // });
 
    // Закрытие попапа по кнопке закрытия
    popups.forEach((popup) => {
