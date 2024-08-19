@@ -1,8 +1,10 @@
-import { cardsList, newPlaceForm } from "../index.js";
-import { closePopup, openPopup } from "./modal.js";
-import { newCardPopup } from "./modal.js"; // Import the newCardPopup for closePopup
+import { newPlaceForm } from "../index.js";
+import { openPopup } from "./modal.js";
 
-const cardTemplate = document.querySelector("#card-template").content; // Template for the card
+const cardTemplate = document.querySelector("#card-template").content;
+const imagePopup = document.querySelector(".popup_type_image");
+const img = imagePopup.querySelector(".popup__image");
+const caption = imagePopup.querySelector(".popup__caption");
 
 // @todo: Функция создания карточки
 function addCard(data, onLike, onDelete) {
@@ -32,10 +34,6 @@ function addCard(data, onLike, onDelete) {
 
    // Добавление обработчика для открытия каротинки
    cardImage.addEventListener("click", () => {
-      const imagePopup = document.querySelector(".popup_type_image");
-      const img = imagePopup.querySelector(".popup__image");
-      const caption = imagePopup.querySelector(".popup__caption");
-
       img.alt = `Полностью открытое изображение карточки "${data.name}"`;
       img.src = data.link;
       caption.textContent = data.name;
@@ -57,15 +55,4 @@ function handleDeleteCard(cardItem) {
    cardItem.remove();
 }
 
-//Функция создания и вывода карточки на страницу
-function saveCard(evt) {
-   evt.preventDefault();
-   const card = addCard(null, handleLikeCard, handleDeleteCard);
-   cardsList.prepend(card);
-   newPlaceForm.reset();
-   closePopup(newCardPopup);
-
-   // initializePopups(openPopup, closePopup, submitForm);
-}
-
-export { addCard, handleDeleteCard, handleLikeCard, newPlaceForm, saveCard };
+export { addCard, handleDeleteCard, handleLikeCard };

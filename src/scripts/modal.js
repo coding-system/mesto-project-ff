@@ -1,6 +1,6 @@
 // Import necessary modules
 import { editProfileForm, profileTitle, profileDescription } from "../index.js";
-import { saveCard } from "./card.js";
+import { saveProfile, saveCard } from "../index.js";
 
 // Функция для открытия попапа
 function openPopup(popup) {
@@ -8,11 +8,11 @@ function openPopup(popup) {
    document.addEventListener("keydown", handleEscKey);
 
    // Вставка начальных данных профиля
-   if (popup === editPopup) {
-      editProfileForm.elements.name.value = profileTitle.textContent;
-      editProfileForm.elements.description.value =
-         profileDescription.textContent;
-   }
+   // if (popup === editPopup) {
+   //    editProfileForm.elements.name.value = profileTitle.textContent;
+   //    editProfileForm.elements.description.value =
+   //       profileDescription.textContent;
+   // }
 }
 
 // Функция для закрытия попапа
@@ -32,17 +32,17 @@ function handleEscKey(event) {
 }
 
 // Функция сохранения новых данных профиля
-function saveProfile(evt) {
-   evt.preventDefault();
-   const name = editProfileForm.elements.name.value;
-   const description = editProfileForm.elements.description.value;
+// function saveProfile(evt) {
+//    evt.preventDefault();
+//    const name = editProfileForm.elements.name.value;
+//    const description = editProfileForm.elements.description.value;
 
-   profileTitle.textContent = name.charAt(0).toUpperCase() + name.slice(1);
-   profileDescription.textContent =
-      description.charAt(0).toUpperCase() + description.slice(1);
+//    profileTitle.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+//    profileDescription.textContent =
+//       description.charAt(0).toUpperCase() + description.slice(1);
 
-   closePopup(editPopup);
-}
+//    // closePopup(editPopup);
+// }
 
 const editPopup = document.querySelector(".popup_type_edit");
 const newCardPopup = document.querySelector(".popup_type_new-card");
@@ -60,6 +60,7 @@ function submitForm() {
       } else if (activePopup === newCardPopup) {
          saveCard(event);
       }
+      closePopup(activePopup);
    });
 }
 
