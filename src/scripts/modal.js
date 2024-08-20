@@ -1,6 +1,6 @@
 // Import necessary modules
-import { editProfileForm, profileTitle, profileDescription } from "../index.js";
-import { saveProfile, saveCard } from "../index.js";
+
+import { saveProfile, saveCard} from "../index.js";
 
 // Функция для открытия попапа
 function openPopup(popup) {
@@ -44,28 +44,30 @@ function handleEscKey(event) {
 //    // closePopup(editPopup);
 // }
 
+
+
+// Функция сабмита формы
+// function submitForm() {
+//    document.addEventListener("submit", (event) => {
+//       event.preventDefault();
+
+//       const activePopup = document.querySelector(".popup_is-opened");
+//       if (!activePopup) return;
+
+//       if (activePopup === editPopup) {
+//          saveProfile(event);
+//       } else if (activePopup === newCardPopup) {
+//          saveCard(event);
+//       }
+//       closePopup(activePopup);
+//    });
+// }
+
 const editPopup = document.querySelector(".popup_type_edit");
 const newCardPopup = document.querySelector(".popup_type_new-card");
 
-// Функция сабмита формы
-function submitForm() {
-   document.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const activePopup = document.querySelector(".popup_is-opened");
-      if (!activePopup) return;
-
-      if (activePopup === editPopup) {
-         saveProfile(event);
-      } else if (activePopup === newCardPopup) {
-         saveCard(event);
-      }
-      closePopup(activePopup);
-   });
-}
-
 // Функция для инициализации попапов
-function initializePopups(onOpen, onClose, onSubmit) {
+function initializePopups(onOpen, onClose) {
    // Добавляем обработчики
 
    // Получаем все попапы
@@ -127,7 +129,7 @@ export {
    initializePopups,
    openPopup,
    closePopup,
-   submitForm,
+   // submitForm,
    handleEscKey,
    newCardPopup,
    editPopup,

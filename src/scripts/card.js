@@ -1,13 +1,9 @@
 import { newPlaceForm } from "../index.js";
-import { openPopup } from "./modal.js";
 
 const cardTemplate = document.querySelector("#card-template").content;
-const imagePopup = document.querySelector(".popup_type_image");
-const img = imagePopup.querySelector(".popup__image");
-const caption = imagePopup.querySelector(".popup__caption");
 
 // @todo: Функция создания карточки
-function addCard(data, onLike, onDelete) {
+function addCard(data, onLike, onDelete, onImageClick) {
    const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
    const cardTitle = cardItem.querySelector(".card__title");
    const cardImage = cardItem.querySelector(".card__image");
@@ -32,14 +28,18 @@ function addCard(data, onLike, onDelete) {
       onDelete(cardItem);
    });
 
-   // Добавление обработчика для открытия каротинки
    cardImage.addEventListener("click", () => {
-      img.alt = `Полностью открытое изображение карточки "${data.name}"`;
-      img.src = data.link;
-      caption.textContent = data.name;
-
-      openPopup(imagePopup);
+      onImageClick(data);
    });
+
+   // Добавление обработчика для открытия каротинки
+   // cardImage.addEventListener("click", () => {
+   //    img.alt = `Полностью открытое изображение карточки "${data.name}"`;
+   //    img.src = data.link;
+   //    caption.textContent = data.name;
+
+   //    openPopup(imagePopup);
+   // });
 
    return cardItem;
 }
