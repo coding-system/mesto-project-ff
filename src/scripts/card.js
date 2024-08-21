@@ -1,5 +1,3 @@
-import { newPlaceForm } from "../index.js";
-
 const cardTemplate = document.querySelector("#card-template").content;
 
 // @todo: Функция создания карточки
@@ -9,12 +7,6 @@ function addCard(data, onLike, onDelete, onImageClick) {
    const cardImage = cardItem.querySelector(".card__image");
    const deleteButton = cardItem.querySelector(".card__delete-button");
    const likeButton = cardItem.querySelector(".card__like-button");
-
-   if (!data) {
-      const placeName = newPlaceForm.elements["place-name"].value;
-      const link = newPlaceForm.elements["link"].value;
-      data = { name: placeName, link: link };
-   }
 
    cardImage.src = data.link;
    cardImage.alt = `Превью карточки "${data.name}"`;
@@ -31,15 +23,6 @@ function addCard(data, onLike, onDelete, onImageClick) {
    cardImage.addEventListener("click", () => {
       onImageClick(data);
    });
-
-   // Добавление обработчика для открытия каротинки
-   // cardImage.addEventListener("click", () => {
-   //    img.alt = `Полностью открытое изображение карточки "${data.name}"`;
-   //    img.src = data.link;
-   //    caption.textContent = data.name;
-
-   //    openPopup(imagePopup);
-   // });
 
    return cardItem;
 }

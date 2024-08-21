@@ -13,16 +13,17 @@ const newCardPopup = document.querySelector(".popup_type_new-card");
 const editProfileForm = document.forms["edit-profile"];
 const newPlaceForm = document.forms["new-place"];
 
+const profileEditButton = document.querySelector(".profile__edit-button");
+const newCardButton = document.querySelector(".profile__add-button");
+
 const imagePopup = document.querySelector(".popup_type_image");
 const img = imagePopup.querySelector(".popup__image");
 const caption = imagePopup.querySelector(".popup__caption");
 
-// editProfileForm.addEventListener("submit", saveProfile);
-// newPlaceForm.addEventListener("submit", saveCard);
-
 // Добавить начальные значения profile
 editProfileForm.elements.name.value = profileTitle.textContent;
 editProfileForm.elements.description.value = profileDescription.textContent;
+
 // Функция вставки карточек по-умолчанию на страницу
 function renderCard(cards) {
    cards.forEach((data) => {
@@ -40,6 +41,14 @@ function renderCard(cards) {
 editProfileForm.addEventListener("submit", saveProfile);
 newPlaceForm.addEventListener("submit", saveCard);
 
+// Обработчики для попапов
+profileEditButton.addEventListener("click", () => {
+   openPopup(editPopup);
+});
+newCardButton.addEventListener("click", () => {
+   openPopup(newCardPopup);
+});
+
 // Функция сохранения новых данных профиля
 function saveProfile(evt) {
    evt.preventDefault();
@@ -56,8 +65,11 @@ function saveProfile(evt) {
 //Функция создания и вывода карточки на страницу
 function saveCard(evt) {
    evt.preventDefault();
+   const placeName = newPlaceForm.elements["place-name"].value;
+   const link = newPlaceForm.elements["link"].value;
+   const newCardData = { name: placeName, link: link };
    const card = addCard(
-      null,
+      newCardData,
       handleLikeCard,
       handleDeleteCard,
       handleImageClick
@@ -67,7 +79,6 @@ function saveCard(evt) {
    closePopup(newCardPopup);
 }
 
-// New function to handle image click
 function handleImageClick(data) {
    img.alt = `Полностью открытое изображение карточки "${data.name}"`;
    img.src = data.link;
@@ -79,14 +90,13 @@ function handleImageClick(data) {
 renderCard(initialCards);
 
 // Инициализация попапов
-initializePopups(openPopup, closePopup);
+initializePopups(closePopup);
 
-export {
-   saveProfile,
-   saveCard,
-   cardsList,
-   editProfileForm,
-   newPlaceForm,
-   profileTitle,
-   profileDescription,
-};
+export // saveProfile,
+// saveCard,
+// cardsList,
+// editProfileForm,
+// newPlaceForm,
+// profileTitle,
+// profileDescription,
+ {};

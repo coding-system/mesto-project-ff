@@ -1,18 +1,7 @@
-// Import necessary modules
-
-import { saveProfile, saveCard} from "../index.js";
-
 // Функция для открытия попапа
 function openPopup(popup) {
    popup.classList.add("popup_is-opened");
    document.addEventListener("keydown", handleEscKey);
-
-   // Вставка начальных данных профиля
-   // if (popup === editPopup) {
-   //    editProfileForm.elements.name.value = profileTitle.textContent;
-   //    editProfileForm.elements.description.value =
-   //       profileDescription.textContent;
-   // }
 }
 
 // Функция для закрытия попапа
@@ -31,43 +20,8 @@ function handleEscKey(event) {
    }
 }
 
-// Функция сохранения новых данных профиля
-// function saveProfile(evt) {
-//    evt.preventDefault();
-//    const name = editProfileForm.elements.name.value;
-//    const description = editProfileForm.elements.description.value;
-
-//    profileTitle.textContent = name.charAt(0).toUpperCase() + name.slice(1);
-//    profileDescription.textContent =
-//       description.charAt(0).toUpperCase() + description.slice(1);
-
-//    // closePopup(editPopup);
-// }
-
-
-
-// Функция сабмита формы
-// function submitForm() {
-//    document.addEventListener("submit", (event) => {
-//       event.preventDefault();
-
-//       const activePopup = document.querySelector(".popup_is-opened");
-//       if (!activePopup) return;
-
-//       if (activePopup === editPopup) {
-//          saveProfile(event);
-//       } else if (activePopup === newCardPopup) {
-//          saveCard(event);
-//       }
-//       closePopup(activePopup);
-//    });
-// }
-
-const editPopup = document.querySelector(".popup_type_edit");
-const newCardPopup = document.querySelector(".popup_type_new-card");
-
 // Функция для инициализации попапов
-function initializePopups(onOpen, onClose) {
+function initializePopups(onClose) {
    // Добавляем обработчики
 
    // Получаем все попапы
@@ -76,34 +30,19 @@ function initializePopups(onOpen, onClose) {
       popup.classList.add("popup_is-animated");
    });
 
-   // Открытие попапа редактирования профиля
-   document
-      .querySelector(".profile__edit-button")
-      .addEventListener("click", () => {
-         onOpen(editPopup);
-      });
+   // // Открытие попапа редактирования профиля
+   // document
+   //    .querySelector(".profile__edit-button")
+   //    .addEventListener("click", () => {
+   //       onOpen(editPopup);
+   //    });
 
    // Открытие попапа добавления нового места
-   document
-      .querySelector(".profile__add-button")
-      .addEventListener("click", () => {
-         onOpen(newCardPopup);
-      });
-
-   // Открытие попапа изображения
-   // document.querySelectorAll(".card__image").forEach((image) => {
-   //    image.addEventListener("click", (event) => {
-   //       const imagePopup = document.querySelector(".popup_type_image");
-   //       const img = imagePopup.querySelector(".popup__image");
-   //       const caption = imagePopup.querySelector(".popup__caption");
-
-   //       img.alt = event.target.alt;
-   //       img.src = event.target.src; // Set image source
-   //       caption.textContent = event.target.alt; // Set caption
-
-   //       onOpen(imagePopup);
+   // document
+   //    .querySelector(".profile__add-button")
+   //    .addEventListener("click", () => {
+   //       onOpen(newCardPopup);
    //    });
-   // });
 
    // Закрытие попапа по кнопке закрытия
    popups.forEach((popup) => {
@@ -121,17 +60,6 @@ function initializePopups(onOpen, onClose) {
          onClose(event.target);
       }
    });
-
-   submitForm(onSubmit);
 }
 
-export {
-   initializePopups,
-   openPopup,
-   closePopup,
-   // submitForm,
-   handleEscKey,
-   newCardPopup,
-   editPopup,
-   saveProfile,
-};
+export { initializePopups, openPopup, closePopup, handleEscKey };
