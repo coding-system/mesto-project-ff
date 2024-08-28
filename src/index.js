@@ -3,16 +3,23 @@ import "./pages/index.css"; // импорт главного файла стил
 import { addCard, handleDeleteCard, handleLikeCard } from "./scripts/card";
 import { initialCards } from "./scripts/cards.js";
 import { initializePopups, openPopup, closePopup } from "./scripts/modal.js";
-import { enableValidation, validationData } from './scripts/validation.js'
+import {
+   enableValidation,
+   clearValidation,
+   validationData,
+} from "./scripts/validation.js";
 
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
+const profileImage = document.querySelector(".profile__image");
 
 const cardsList = document.querySelector(".places__list"); // Грид с карточками
 const editPopup = document.querySelector(".popup_type_edit");
 const newCardPopup = document.querySelector(".popup_type_new-card");
 const editProfileForm = document.forms["edit-profile"];
 const newPlaceForm = document.forms["new-place"];
+
+// Инпуты попапов
 const editProfileInputName = editProfileForm.elements.name;
 const editProfileInputDescription = editProfileForm.elements.description;
 
@@ -24,8 +31,8 @@ const img = imagePopup.querySelector(".popup__image");
 const caption = imagePopup.querySelector(".popup__caption");
 
 // Добавить начальные значения profile
-editProfileInputName.value = profileTitle.textContent;
-editProfileInputDescription.value = profileDescription.textContent;
+// editProfileInputName.value = profileTitle.textContent;
+// editProfileInputDescription.value = profileDescription.textContent;
 
 // Функция вставки карточек по-умолчанию на страницу
 function renderCard(cards) {
@@ -46,9 +53,17 @@ newPlaceForm.addEventListener("submit", saveCard);
 
 // Обработчики для попапов
 profileEditButton.addEventListener("click", () => {
+   clearValidation(validationData, editProfileForm);
+   editProfileForm.reset();
+   editProfileInputName.value = profileTitle.textContent;
+   editProfileInputDescription.value = profileDescription.textContent;
    openPopup(editPopup);
 });
+
+// Обработчик открытия попапа для добавления новой карточки
 newCardButton.addEventListener("click", () => {
+   newPlaceForm.reset(); // Сбрасываем форму
+   clearValidation(validationData, newPlaceForm); // Очищаем валидацию
    openPopup(newCardPopup);
 });
 
