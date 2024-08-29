@@ -1,5 +1,6 @@
 import "./pages/index.css"; // импорт главного файла стилей
 
+import {getQuote, getData, getUserInfo} from './scripts/api.js'
 import { addCard, handleDeleteCard, handleLikeCard } from "./scripts/card";
 import { initialCards } from "./scripts/cards.js";
 import { initializePopups, openPopup, closePopup } from "./scripts/modal.js";
@@ -113,13 +114,9 @@ initializePopups(closePopup);
 // включение валидации вызовом enableValidation
 // все настройки передаются при вызове
 
+getQuote()
+getData()
+getUserInfo()
 enableValidation(validationData);
 
-export // saveProfile,
-// saveCard,
-// cardsList,
-// editProfileForm,
-// newPlaceForm,
-// profileTitle,
-// profileDescription,
- {};
+export {profileTitle, profileDescription, profileImage};
