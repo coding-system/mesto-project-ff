@@ -23,14 +23,14 @@ const config = {
 export function getData() {
    return fetch(`${config.baseUrl}/cards`, {
       headers: {
-        authorization: '1ca8a073-c9de-470b-a0ce-59e76a2f8b78',
-        "Content-Type": "application/json",
-      }
-    })
-      .then(res => res.json())
+         authorization: "1ca8a073-c9de-470b-a0ce-59e76a2f8b78",
+         "Content-Type": "application/json",
+      },
+   })
+      .then((res) => res.json())
       .then((result) => {
-        console.log(result);
-      }); 
+         console.log(result);
+      });
 }
 //////////////////////////////
 /////////////////////////////
@@ -39,33 +39,39 @@ export function getData() {
 //////////////////////////
 function getResponse(res) {
    if (res.ok) {
-     return res.json();
+      return res.json();
    }
    return Promise.reject(`Ошибка: ${res.status}`);
- }
- 
- // Данные профиля
- export function getUserData() {
-   return fetch(`${config.baseUrl}/users/me`, {
-     headers: config.headers,
-   }).then(getResponse);
- }
-// Обноляем данные профиля
- export function updateUserProfile(name, about) {
-   return fetch(`${config.baseUrl}/users/me`, {
-     method: 'PATCH',
-     headers: config.headers,
-     body: JSON.stringify({
-       name: name,
-       about: about
-     })
-   })
-   .then(getResponse);
- }
- 
- export function getCardsData() {
-   return fetch(`${config.baseUrl}/cards`, {
-     headers: config.headers,
-   }).then(getResponse);
- }
+}
 
+// Данные профиля
+export function getUserData() {
+   return fetch(`${config.baseUrl}/users/me`, {
+      headers: config.headers,
+   }).then(getResponse);
+}
+// Обноляем данные профиля
+export function updateUserProfile(name, about) {
+   return fetch(`${config.baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: config.headers,
+      body: JSON.stringify({
+         name: name,
+         about: about,
+      }),
+   }).then(getResponse);
+}
+
+export function getCardsData() {
+   return fetch(`${config.baseUrl}/cards`, {
+      headers: config.headers,
+   }).then(getResponse);
+}
+
+export function saveNewCard(name, link) {
+   return fetch(`${config.baseUrl}/cards`, {
+      method: "POST",
+      headers: config.headers,
+      body: JSON.stringify({ name, link }),
+   }).then(getResponse);
+}

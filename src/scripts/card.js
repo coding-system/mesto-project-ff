@@ -14,9 +14,12 @@ function addCard(data, userId, onLike, onDelete, onImageClick) {
    cardTitle.textContent = data.name;
    likeCount.textContent = data.likes.length;
 
-   if (data.owner._id !== userId) {
-      deleteButton.style.display = "none";
-   }
+   if (userId !== data.owner._id) {
+      deleteButton.classList.add("card__delete-button-disabled");
+   } 
+   // else {
+   //    deleteButton.classList.remove("card__delete-button-disabled");
+   // }
 
    if (data.likes.some((like) => like._id === userId)) {
       likeButton.classList.add("card__like-button_is-active");
