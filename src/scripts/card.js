@@ -1,16 +1,26 @@
 const cardTemplate = document.querySelector("#card-template").content;
 
 // @todo: Функция создания карточки
-function addCard(data, onLike, onDelete, onImageClick) {
+function addCard(data, userId, onLike, onDelete, onImageClick) {
    const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
    const cardTitle = cardItem.querySelector(".card__title");
    const cardImage = cardItem.querySelector(".card__image");
    const deleteButton = cardItem.querySelector(".card__delete-button");
    const likeButton = cardItem.querySelector(".card__like-button");
+   const likeCount = cardItem.querySelector(".card__like-count");
 
    cardImage.src = data.link;
    cardImage.alt = `Превью карточки "${data.name}"`;
    cardTitle.textContent = data.name;
+   likeCount.textContent = data.likes.length;
+
+   if (data.owner._id !== userId) {
+      deleteButton.style.display = "none";
+   }
+
+   if (data.likes.some((like) => like._id === userId)) {
+      likeButton.classList.add("card__like-button_is-active");
+   }
 
    likeButton.addEventListener("click", () => {
       onLike(cardItem);

@@ -1,6 +1,6 @@
 import "./pages/index.css"; // импорт главного файла стилей
 
-import {getQuote, getData, getUserInfo} from './scripts/api.js'
+import {getQuote, getData, getUserData, getCardsData, updateUserProfile} from './scripts/api.js'
 import { addCard, handleDeleteCard, handleLikeCard } from "./scripts/card";
 import { initialCards } from "./scripts/cards.js";
 import { initializePopups, openPopup, closePopup } from "./scripts/modal.js";
@@ -9,6 +9,7 @@ import {
    clearValidation,
    validationData,
 } from "./scripts/validation.js";
+// import { getUserData, getCardsData } from './scripts/api.js';
 
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
@@ -36,17 +37,17 @@ const caption = imagePopup.querySelector(".popup__caption");
 // editProfileInputDescription.value = profileDescription.textContent;
 
 // Функция вставки карточек по-умолчанию на страницу
-function renderCard(cards) {
-   cards.forEach((data) => {
-      const card = addCard(
-         data,
-         handleLikeCard,
-         handleDeleteCard,
-         handleImageClick
-      );
-      cardsList.append(card);
-   });
-}
+// function renderCard(cards) {
+//    cards.forEach((data) => {
+//       const card = addCard(
+//          data,
+//          handleLikeCard,
+//          handleDeleteCard,
+//          handleImageClick
+//       );
+//       cardsList.append(card);
+//    });
+// }
 
 // Обработчики для форм
 editProfileForm.addEventListener("submit", saveProfile);
@@ -63,23 +64,30 @@ profileEditButton.addEventListener("click", () => {
 
 // Обработчик открытия попапа для добавления новой карточки
 newCardButton.addEventListener("click", () => {
-   newPlaceForm.reset(); // Сбрасываем форму
-   clearValidation(validationData, newPlaceForm); // Очищаем валидацию
+   newPlaceForm.reset();
+   clearValidation(validationData, newPlaceForm);
    openPopup(newCardPopup);
 });
 
 // Функция сохранения новых данных профиля
 function saveProfile(evt) {
    evt.preventDefault();
+ 
+   // Получаем данные из формы
    const name = editProfileForm.elements.name.value;
    const description = editProfileForm.elements.description.value;
-
-   profileTitle.textContent = name.charAt(0).toUpperCase() + name.slice(1);
-   profileDescription.textContent =
-      description.charAt(0).toUpperCase() + description.slice(1);
-
-   closePopup(editPopup);
-}
+ 
+   updateUserProfile(name, description)
+     .then((userData) => {
+       profileTitle.textContent = userData.name;
+       profileDescription.textContent = userData.about;
+ 
+       closePopup(editPopup);
+     })
+     .catch((err) => {
+       console.error('Error updating profile:', err);
+     });
+ }
 
 //Функция создания и вывода карточки на страницу
 function saveCard(evt) {
@@ -105,8 +113,33 @@ function handleImageClick(data) {
 
    openPopup(imagePopup);
 }
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+function renderProfile(userData) {
+   profileTitle.textContent = userData.name;
+   profileDescription.textContent = userData.about;
+   profileImage.src = userData.avatar;
+   profileImage.alt = `Avatar of ${userData.name}`;
+ }
 
-renderCard(initialCards);
+ function renderCards(cards, userId) {
+   const cardsList = document.querySelector('.places__list');
+   cards.forEach(cardData => {
+     const cardElement = addCard(cardData, userId, handleLikeCard, handleDeleteCard, handleImageClick);
+     cardsList.append(cardElement);
+   });
+ }
+
+ Promise.all([getUserData(), getCardsData()])
+ .then(([userData, cards]) => {
+   const userId = userData._id;
+   renderProfile(userData);  // Обновляем данные профиля с сервекра
+   renderCards(cards, userId);  // Обновляем данные карточек с сервера
+ })
+ .catch(err => console.error(err));
 
 // Инициализация попапов
 initializePopups(closePopup);
@@ -114,9 +147,9 @@ initializePopups(closePopup);
 // включение валидации вызовом enableValidation
 // все настройки передаются при вызове
 
-getQuote()
+// getQuote()
 getData()
-getUserInfo()
+// getUserInfo()
 enableValidation(validationData);
 
 export {profileTitle, profileDescription, profileImage};
