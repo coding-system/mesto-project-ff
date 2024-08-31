@@ -75,3 +75,11 @@ export function saveNewCard(name, link) {
       body: JSON.stringify({ name, link }),
    }).then(getResponse);
 }
+
+export function deleteCardFromServer(cardId) {
+   return fetch(`${config.baseUrl}/cards/${cardId}`, {
+     method: 'DELETE',
+     headers: config.headers,
+   })
+   .then(getResponse);
+ }

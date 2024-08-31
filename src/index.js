@@ -7,9 +7,10 @@ import {
    getCardsData,
    updateUserProfile,
    saveNewCard,
+   // deleteCardFromServer
 } from "./scripts/api.js";
 import { addCard, handleDeleteCard, handleLikeCard } from "./scripts/card";
-import { initialCards } from "./scripts/cards.js";
+// import { initialCards } from "./scripts/cards.js";
 import { initializePopups, openPopup, closePopup } from "./scripts/modal.js";
 import {
    enableValidation,
@@ -17,6 +18,8 @@ import {
    validationData,
 } from "./scripts/validation.js";
 // import { getUserData, getCardsData } from './scripts/api.js';
+
+let userId;
 
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
@@ -99,31 +102,27 @@ function saveProfile(evt) {
 //Функция создания и вывода карточки на страницу
 function saveCard(evt) {
    evt.preventDefault();
-
-   // Получаем данные из формы
+ 
    const placeName = newPlaceForm.elements["place-name"].value;
    const link = newPlaceForm.elements["link"].value;
-   console.log(`Сохраняем, ${placeName}, ${link}`);
-   // Отправляем запрос для добавления карточки
+ 
    saveNewCard(placeName, link)
-      .then((cardData) => {
-         const card = addCard(
-            cardData,
-            userId,
-            handleLikeCard,
-            handleDeleteCard,
-            handleImageClick
-         );
-
-         cardsList.prepend(card);
-         newPlaceForm.reset();
-         closePopup(newCardPopup);
-         console.log("Попап закрыт");
-      })
-      .catch((err) => {
-         console.error(err);
-      });
-}
+     .then((cardData) => {
+       const card = addCard(
+         cardData,
+         userId,
+         handleLikeCard,
+         handleDeleteCard,
+         handleImageClick
+       );
+       cardsList.prepend(card);
+       newPlaceForm.reset();
+       closePopup(newCardPopup);
+     })
+     .catch((err) => {
+       console.error('Error saving card:', err);
+     });
+ }
 
 function handleImageClick(data) {
    img.alt = `Полностью открытое изображение карточки "${data.name}"`;
@@ -160,12 +159,19 @@ function renderCards(cards, userId) {
 
 Promise.all([getUserData(), getCardsData()])
    .then(([userData, cards]) => {
-      const userId = userData._id;
+      userId = userData._id;
       renderProfile(userData); // Обновляем данные профиля с сервекра
       renderCards(cards, userId); // Обновляем данные карточек с сервера
    })
    .catch((err) => console.error(err));
 
+// Promise.all([getUserData(), getCardsData()])
+//    .then(([userData, cards]) => {
+//       const userId = userData._id;
+//       renderProfile(userData); // Обновляем данные профиля с сервекра
+//       renderCards(cards, userId); // Обновляем данные карточек с сервера
+//    })
+//    .catch((err) => console.error(err));
 // Инициализация попапов
 initializePopups(closePopup);
 

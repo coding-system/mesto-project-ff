@@ -1,3 +1,4 @@
+import { deleteCardFromServer } from "../scripts/api.js";
 const cardTemplate = document.querySelector("#card-template").content;
 
 // @todo: Функция создания карточки
@@ -14,23 +15,22 @@ function addCard(data, userId, onLike, onDelete, onImageClick) {
    cardTitle.textContent = data.name;
    likeCount.textContent = data.likes.length;
 
+   // Проверка пользователя для включения корзины
    if (userId !== data.owner._id) {
       deleteButton.classList.add("card__delete-button-disabled");
-   } 
-   // else {
-   //    deleteButton.classList.remove("card__delete-button-disabled");
-   // }
-
+   } else {
+      deleteButton.classList.remove("card__delete-button-disabled");
+      deleteButton.addEventListener("click", () => {
+         onDelete(cardItem, data._id); // Pass cardId to handleDeleteCard
+      });
+   }
+   // Проверка лайка пользователем
    if (data.likes.some((like) => like._id === userId)) {
       likeButton.classList.add("card__like-button_is-active");
    }
 
    likeButton.addEventListener("click", () => {
       onLike(cardItem);
-   });
-
-   deleteButton.addEventListener("click", () => {
-      onDelete(cardItem);
    });
 
    cardImage.addEventListener("click", () => {
@@ -47,8 +47,14 @@ function handleLikeCard(cardItem) {
 }
 
 // @todo: Функция удаления карточки
-function handleDeleteCard(cardItem) {
-   cardItem.remove();
+function handleDeleteCard(cardItem, cardId) {
+   deleteCardFromServer(cardId)
+      .then(() => {
+         cardItem.remove();
+      })
+      .catch((err) => {
+         console.error(err);
+      });
 }
 
 export { addCard, handleDeleteCard, handleLikeCard };
