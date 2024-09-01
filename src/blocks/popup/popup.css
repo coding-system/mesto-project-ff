@@ -25,7 +25,7 @@
 .popup__error {
    opacity: 0;
    color: red;
-   font-size: 10px;
+   font-size: 12px;
    transition: 0.2s ease;
 }
 

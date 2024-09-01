@@ -45,13 +45,13 @@ function getResponse(res) {
 }
 
 // Данные профиля
-export function getUserData() {
+export const getUserData = ()  => {
    return fetch(`${config.baseUrl}/users/me`, {
       headers: config.headers,
    }).then(getResponse);
 }
 // Обноляем данные профиля
-export function updateUserProfile(name, about) {
+export const updateUserProfile = (name, about)  => {
    return fetch(`${config.baseUrl}/users/me`, {
       method: "PATCH",
       headers: config.headers,
@@ -62,13 +62,13 @@ export function updateUserProfile(name, about) {
    }).then(getResponse);
 }
 
-export function getCardsData() {
+export const getCardsData = ()  => {
    return fetch(`${config.baseUrl}/cards`, {
       headers: config.headers,
    }).then(getResponse);
 }
 
-export function saveNewCard(name, link) {
+export const saveNewCard = (name, link)  => {
    return fetch(`${config.baseUrl}/cards`, {
       method: "POST",
       headers: config.headers,
@@ -76,10 +76,34 @@ export function saveNewCard(name, link) {
    }).then(getResponse);
 }
 
-export function deleteCardFromServer(cardId) {
+export const deleteCardFromServer = (cardId)  => {
    return fetch(`${config.baseUrl}/cards/${cardId}`, {
      method: 'DELETE',
      headers: config.headers,
    })
    .then(getResponse);
+ }
+
+ export const likeCardOnServer = (cardId)  => {
+   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+     method: 'PUT',
+     headers: config.headers,
+   }).then(getResponse);
+ }
+ 
+ export const unlikeCardOnServer = (cardId) => {
+   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+     method: 'DELETE',
+     headers: config.headers,
+   }).then(getResponse);
+ }
+
+ export const updateAvatarOnServer = (avatarUrl) => {
+   return fetch(`${config.baseUrl}/users/me/avatar`, {
+     method: 'PATCH',
+     headers: config.headers,
+     body: JSON.stringify({
+       avatar: avatarUrl
+     })
+   }).then(getResponse);
  }

@@ -8,6 +8,7 @@ import {
    updateUserProfile,
    saveNewCard,
    // deleteCardFromServer
+   updateAvatarOnServer,
 } from "./scripts/api.js";
 import { addCard, handleDeleteCard, handleLikeCard } from "./scripts/card";
 // import { initialCards } from "./scripts/cards.js";
@@ -28,8 +29,10 @@ const profileImage = document.querySelector(".profile__image");
 const cardsList = document.querySelector(".places__list"); // Грид с карточками
 const editPopup = document.querySelector(".popup_type_edit");
 const newCardPopup = document.querySelector(".popup_type_new-card");
+const avatarPopup = document.querySelector(".popup_type_avatar");
 const editProfileForm = document.forms["edit-profile"];
 const newPlaceForm = document.forms["new-place"];
+const avatarForm = document.forms["avatar"];
 
 // Инпуты попапов
 const editProfileInputName = editProfileForm.elements.name;
@@ -62,6 +65,7 @@ const caption = imagePopup.querySelector(".popup__caption");
 // Обработчики для форм
 editProfileForm.addEventListener("submit", saveProfile);
 newPlaceForm.addEventListener("submit", saveCard);
+avatarForm.addEventListener("submit", saveAvatar);
 
 // Обработчики для попапов
 profileEditButton.addEventListener("click", () => {
@@ -79,9 +83,28 @@ newCardButton.addEventListener("click", () => {
    openPopup(newCardPopup);
 });
 
+profileImage.addEventListener("click", () => {
+   avatarForm.reset();
+   clearValidation(validationData, avatarForm);
+   openPopup(avatarPopup);
+});
+
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+// Сохранение............Функция смены загрузки кнопки сабмита Сохранение...
+function switchLoadingStatus(submitButton, isLoading) {
+   if (isLoading) {
+      submitButton.textContent = "Сохранение...";
+   } else {
+      submitButton.textContent = "Сохранить";
+   }
+}
+
 // Функция сохранения новых данных профиля
 function saveProfile(evt) {
    evt.preventDefault();
+
+   switchLoadingStatus(evt.submitter, true);
 
    // Получаем данные из формы
    const name = editProfileForm.elements.name.value;
@@ -96,33 +119,65 @@ function saveProfile(evt) {
       })
       .catch((err) => {
          console.error(err);
+      })
+      .finally(() => {
+         switchLoadingStatus(evt.submitter, false);
       });
 }
 
 //Функция создания и вывода карточки на страницу
 function saveCard(evt) {
    evt.preventDefault();
- 
+
+   switchLoadingStatus(evt.submitter, true);
+
    const placeName = newPlaceForm.elements["place-name"].value;
    const link = newPlaceForm.elements["link"].value;
- 
+
    saveNewCard(placeName, link)
-     .then((cardData) => {
-       const card = addCard(
-         cardData,
-         userId,
-         handleLikeCard,
-         handleDeleteCard,
-         handleImageClick
-       );
-       cardsList.prepend(card);
-       newPlaceForm.reset();
-       closePopup(newCardPopup);
-     })
-     .catch((err) => {
-       console.error('Error saving card:', err);
-     });
- }
+      .then((cardData) => {
+         const card = addCard(
+            cardData,
+            userId,
+            handleLikeCard,
+            handleDeleteCard,
+            handleImageClick
+         );
+         cardsList.prepend(card);
+         newPlaceForm.reset();
+         closePopup(newCardPopup);
+      })
+      .catch((err) => {
+         console.error(err);
+      })
+      .finally(() => {
+         switchLoadingStatus(evt.submitter, false);
+      });
+}
+
+// Функция обновления аватара
+function saveAvatar(evt) {
+   evt.preventDefault();
+
+   switchLoadingStatus(evt.submitter, true);
+
+   const avatarLink = avatarForm.elements["avatar-link"].value;
+
+   updateAvatarOnServer(avatarLink)
+      .then((userData) => {
+         profileImage.style.backgroundImage = `url('${userData.avatar}')`;
+
+         avatarForm.reset();
+
+         closePopup(avatarPopup);
+      })
+      .catch((err) => {
+         console.error(err);
+      })
+      .finally(() => {
+         switchLoadingStatus(evt.submitter, false);
+      });
+}
 
 function handleImageClick(data) {
    img.alt = `Полностью открытое изображение карточки "${data.name}"`;
@@ -136,13 +191,15 @@ function handleImageClick(data) {
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
+// Загрузка профиля с сервера
 function renderProfile(userData) {
    profileTitle.textContent = userData.name;
    profileDescription.textContent = userData.about;
-   profileImage.src = userData.avatar;
-   profileImage.alt = `Avatar of ${userData.name}`;
+   profileImage.style.backgroundImage = `url('${userData.avatar}')`;
+   profileImage.alt = `Аватар пользователя: ${userData.name}`;
 }
 
+// Вывод загруженных карточек
 function renderCards(cards, userId) {
    const cardsList = document.querySelector(".places__list");
    cards.forEach((cardData) => {

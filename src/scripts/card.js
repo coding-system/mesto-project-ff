@@ -1,4 +1,4 @@
-import { deleteCardFromServer } from "../scripts/api.js";
+import { deleteCardFromServer, likeCardOnServer, unlikeCardOnServer } from "../scripts/api.js";
 const cardTemplate = document.querySelector("#card-template").content;
 
 // @todo: Функция создания карточки
@@ -9,42 +9,60 @@ function addCard(data, userId, onLike, onDelete, onImageClick) {
    const deleteButton = cardItem.querySelector(".card__delete-button");
    const likeButton = cardItem.querySelector(".card__like-button");
    const likeCount = cardItem.querySelector(".card__like-count");
-
+ 
    cardImage.src = data.link;
    cardImage.alt = `Превью карточки "${data.name}"`;
    cardTitle.textContent = data.name;
    likeCount.textContent = data.likes.length;
-
-   // Проверка пользователя для включения корзины
+ 
    if (userId !== data.owner._id) {
-      deleteButton.classList.add("card__delete-button-disabled");
+     deleteButton.classList.add("card__delete-button-disabled");
    } else {
-      deleteButton.classList.remove("card__delete-button-disabled");
-      deleteButton.addEventListener("click", () => {
-         onDelete(cardItem, data._id); // Pass cardId to handleDeleteCard
-      });
+     deleteButton.classList.remove("card__delete-button-disabled");
+     deleteButton.addEventListener("click", () => {
+       onDelete(cardItem, data._id);
+     });
    }
-   // Проверка лайка пользователем
-   if (data.likes.some((like) => like._id === userId)) {
-      likeButton.classList.add("card__like-button_is-active");
+ 
+   
+   const isLiked = data.likes.some((like) => like._id === userId);
+   if (isLiked) {
+     likeButton.classList.add("card__like-button_is-active");
    }
-
+ 
    likeButton.addEventListener("click", () => {
-      onLike(cardItem);
+     onLike(cardItem, data._id, isLiked);
    });
-
+ 
    cardImage.addEventListener("click", () => {
-      onImageClick(data);
+     onImageClick(data);
    });
-
+ 
    return cardItem;
-}
+ }
 
 // Функция лайка
-function handleLikeCard(cardItem) {
+function handleLikeCard(cardItem, cardId, isLiked) {
    const likeButton = cardItem.querySelector(".card__like-button");
-   likeButton.classList.toggle("card__like-button_is-active");
-}
+   const likeCount = cardItem.querySelector(".card__like-count");
+ 
+   const likeRequest = isLiked ? unlikeCardOnServer : likeCardOnServer;
+ 
+   likeRequest(cardId)
+     .then((updatedCardData) => {
+       // Update the like button state
+       if (isLiked) {
+         likeButton.classList.remove("card__like-button_is-active");
+       } else {
+         likeButton.classList.add("card__like-button_is-active");
+       }
+       
+       likeCount.textContent = updatedCardData.likes.length;
+     })
+     .catch((err) => {
+       console.error(err);
+     });
+ }
 
 // @todo: Функция удаления карточки
 function handleDeleteCard(cardItem, cardId) {
