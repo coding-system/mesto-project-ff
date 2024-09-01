@@ -4,5 +4,6 @@
 
 https://github.com/coding-system/mesto-project-ff.git
 
-[Ссылка на сайт]([notable.md](https://coding-system.github.io/mesto-project-ff/))
+[Link]([notable.md](https://coding-system.github.io/mesto-project-ff/))
+
 
