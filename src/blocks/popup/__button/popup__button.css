@@ -25,6 +25,7 @@
    color: #000;
    opacity: 0.8;
    pointer-events: none;
+   user-select: none;
 }
 
 @media screen and (max-width: 568px) {

@@ -47,7 +47,6 @@ function isValid(data, formElement, inputElement) {
          formElement,
          inputElement,
          inputElement.validationMessage
-         
       );
    } else {
       hideInputError(data, formElement, inputElement);
@@ -58,9 +57,7 @@ function setEventListeners(data, formElement) {
    const inputList = Array.from(
       formElement.querySelectorAll(data.inputSelector)
    );
-   const buttonElement = formElement.querySelector(
-      data.submitButtonSelector
-   );
+   const buttonElement = formElement.querySelector(data.submitButtonSelector);
    toggleButtonState(data, inputList, buttonElement);
    inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", function () {
@@ -72,9 +69,7 @@ function setEventListeners(data, formElement) {
 }
 
 function enableValidation(data) {
-   const formList = Array.from(
-      document.querySelectorAll(data.formSelector)
-   );
+   const formList = Array.from(document.querySelectorAll(data.formSelector));
    formList.forEach((formElement) => {
       setEventListeners(data, formElement);
    });
@@ -90,8 +85,10 @@ function hasInvalidInput(inputList) {
 function toggleButtonState(data, inputList, buttonElement) {
    if (hasInvalidInput(inputList)) {
       buttonElement.classList.add(data.inactiveButtonClass);
+      buttonElement.disabled = true;
    } else {
       buttonElement.classList.remove(data.inactiveButtonClass);
+      buttonElement.disabled = false;
    }
 }
 
@@ -99,9 +96,7 @@ function clearValidation(data, formElement) {
    const inputList = Array.from(
       formElement.querySelectorAll(data.inputSelector)
    );
-   const buttonElement = formElement.querySelector(
-      data.submitButtonSelector
-   );
+   const buttonElement = formElement.querySelector(data.submitButtonSelector);
    toggleButtonState(data, inputList, buttonElement);
    inputList.forEach((inputElement) => {
       hideInputError(data, formElement, inputElement);

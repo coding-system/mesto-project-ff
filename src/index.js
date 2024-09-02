@@ -70,7 +70,6 @@ avatarForm.addEventListener("submit", saveAvatar);
 // Обработчики для попапов
 profileEditButton.addEventListener("click", () => {
    clearValidation(validationData, editProfileForm);
-   editProfileForm.reset();
    editProfileInputName.value = profileTitle.textContent;
    editProfileInputDescription.value = profileDescription.textContent;
    openPopup(editPopup);
@@ -117,9 +116,7 @@ function saveProfile(evt) {
 
          closePopup(editPopup);
       })
-      .catch((err) => {
-         console.error(err);
-      })
+      .catch(console.error)
       .finally(() => {
          switchLoadingStatus(evt.submitter, false);
       });
@@ -147,9 +144,7 @@ function saveCard(evt) {
          newPlaceForm.reset();
          closePopup(newCardPopup);
       })
-      .catch((err) => {
-         console.error(err);
-      })
+      .catch(console.error)
       .finally(() => {
          switchLoadingStatus(evt.submitter, false);
       });
@@ -171,9 +166,7 @@ function saveAvatar(evt) {
 
          closePopup(avatarPopup);
       })
-      .catch((err) => {
-         console.error(err);
-      })
+      .catch(console.error)
       .finally(() => {
          switchLoadingStatus(evt.submitter, false);
       });
@@ -220,7 +213,7 @@ Promise.all([getUserData(), getCardsData()])
       renderProfile(userData); // Обновляем данные профиля с сервекра
       renderCards(cards, userId); // Обновляем данные карточек с сервера
    })
-   .catch((err) => console.error(err));
+   .catch(console.error);
 
 // Promise.all([getUserData(), getCardsData()])
 //    .then(([userData, cards]) => {
@@ -236,8 +229,7 @@ initializePopups(closePopup);
 // все настройки передаются при вызове
 
 // getQuote()
-getData();
 // getUserInfo()
 enableValidation(validationData);
 
-export { profileTitle, profileDescription, profileImage };
+// export { profileTitle, profileDescription, profileImage };

@@ -22,7 +22,22 @@
    z-index: 10;
 }
 
+.popup__input-box {
+   margin-top: 15px;
+   position: relative;
+   display: flex;
+   flex-direction: column;
+}
+
+.popup__input-box:first-child, .popup__input-box:last-child {
+   margin-top: 0;
+}
 .popup__error {
+   height: 28px;
+   position: absolute;
+   bottom: calc(-100% + 1.25em);
+   left: 0;
+   z-index: 46;
    opacity: 0;
    color: red;
    font-size: 12px;

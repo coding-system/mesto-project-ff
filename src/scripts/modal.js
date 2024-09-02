@@ -2,12 +2,14 @@
 function openPopup(popup) {
    popup.classList.add("popup_is-opened");
    document.addEventListener("keydown", handleEscKey);
+   document.addEventListener("mousedown", handleOverlayClick)
 }
 
 // Функция для закрытия попапа
 function closePopup(popup) {
    popup.classList.remove("popup_is-opened");
    document.removeEventListener("keydown", handleEscKey);
+   document.removeEventListener("mousedown", handleOverlayClick)
 }
 
 // Закрытие попапа по нажатию на клавишу Esc
@@ -18,6 +20,15 @@ function handleEscKey(event) {
          closePopup(openedPopup);
       }
    }
+}
+
+function handleOverlayClick(event) {
+      if (event.target.classList.contains("popup_is-opened")) {
+         const openedPopup = document.querySelector(".popup_is-opened");
+         if (openedPopup) {
+            closePopup(openedPopup);
+         }
+      }
 }
 
 // Функция для инициализации попапов
@@ -55,11 +66,11 @@ function initializePopups(onClose) {
    });
 
    // Закрытие попапа при клике на оверлей
-   document.addEventListener("mousedown", (event) => {
-      if (event.target.classList.contains("popup_is-opened")) {
-         onClose(event.target);
-      }
-   });
+   // document.addEventListener("mousedown", (event) => {
+   //    if (event.target.classList.contains("popup_is-opened")) {
+   //       onClose(event.target);
+   //    }
+   // });
 }
 
 export { initializePopups, openPopup, closePopup, handleEscKey };
